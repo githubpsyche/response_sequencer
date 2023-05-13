@@ -1,0 +1,37 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Toward automatic preprocessing of complex free response data"
+  author: "Jordan Gunn"
+  description: "An examination of techniques for automatic preprocessing of complex free response data for organizational analysis in memory research"
+  keyword: "memory, free recall, semantic fluency, preprocessing, natural language processing, computational linguistics"
+  url: https://githubpsyche.github.io/response_sequencer/
+  sidebar: 
+    background: "#f8f9fa"
+    search: true
+  repo-url: https://github.com/githubpsyche/response_sequencer
+  repo-branch: master
+  output-file: "main"
+  repo-actions: [edit, issue, source]
+  sharing: [twitter, facebook, linkedin]
+
+  chapters:
+    - index.md
+    - part: paper/index.md
+      chapters:
+        - paper/01_introduction.md
+    - part: notebooks/index.ipynb
+      chapters:
+        - notebooks/00_Loading_Data.ipynb
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: 
+      light: cosmo
+    code-fold: true
+    backgroundcolor: "#F5F5F5"
+    number-sections: false

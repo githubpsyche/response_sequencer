@@ -1,0 +1,37 @@
+project:
+  type: book
+  output-dir: .
+  
+book:
+  title: "Toward automatic preprocessing of complex free response data"
+  author: "Jordan Gunn"
+  output-file: "main"
+  chapters:
+    - index.md
+    - 01_introduction.md
+
+bibliography: ../references.bib
+  
+format:
+  pdf:
+    # author: 
+    #     - |
+    #       | Jordan B. Gunn
+    #       | Cognition and Cognitive Neuroscience Program
+    #       | Vanderbilt University
+    #       | Nashville, TN 37235
+    #       | \texttt{jordan.gunn@vanderbilt.edu}
+    #     - | \textbf{Sean M. Polyn}
+    #       | Department of Psychological Sciences
+    #       | Vanderbilt University
+    #       | Nashville, TN 37235
+    #       | \texttt{sean.polyn@vanderbilt.edu}
+    documentclass: scrreprt
+    toc: true
+    echo: false
+    output: false
+    keep-tex: true
+    csl: apa.csl
+    #classoption:  12pt
+    filters:
+      - abstract-section
