@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "response_sequencer",
+    "title": "ResponseSequencer",
     "section": "",
-    "text": "This paper explores the potential of automatic natural language processing (NLP) techniques to preprocess complex free response data in a range of domains. We examine various frameworks that break down the task of coding free response data into a series of discrete preprocessing steps and evaluate various automated techniques for each step. Specifically, we compare human and computational methods for segmenting text, matching response units with target items, and identifying the sequence of target items generated in a trial. We conclude with a discussion of the challenges and opportunities for automated free response data analysis and identify future directions for research in this area."
+    "text": "response_sequencer\nThe ResponseSequencer library is a Python library for research on automatic methods for preprocessing complex free response data as the production of a sequence of target items.\nThe project examines various frameworks that break down the task of coding free response data into discrete preprocessing steps. It evaluates multiple automated techniques for performing each step, both independently and in the context of an overall preprocessing pipeline. Specifically, we compare human and computational methods for segmenting text, matching response units with target items, and identifying the sequence of target items generated in a trial.\nThe library provides and helps develop strategies for segmenting textual free response data into response units, matching response units with target items, and identifying the sequence of target items generated in a trial. The library also enables users to create and examine different approaches for assessing the performance of the preprocessing methods for their own datasets."
   },
   {
     "objectID": "paper/index.html",
@@ -68,5 +68,40 @@
     "title": "Data Loading",
     "section": "Senses Dataset",
     "text": "Senses Dataset\n\n\nCode\nimport numpy as np\nfrom torch.utils.data import Dataset\nimport chardet\nimport hdf5storage\n\nclass SensesDataset(Dataset):\n    def __init__(self, hdf5_file_path, sense_pool_path, transform=None):\n        \"\"\"\n        Initialize the dataset.\n\n        Args:\n            hdf5_file_path (str): Path to the HDF5 file.\n            sense_pool_path (str): Path to the sense pool file.\n            transform (callable, optional): Optional transform to be applied\n                on a sample. Defaults to None.\n        \"\"\"\n        # Load the data from the specified HDF5 file\n        # You can customize this part to load your data\n        self.data = hdf5storage.read(path='/data', filename=hdf5_file_path)\n\n        self.trial_count = len(self.data[\"subject\"])\n        self.trial_indices = np.arange(self.trial_count)\n        with open(sense_pool_path, mode='rb') as f:\n            raw_data = f.read()\n            detected_encoding = chardet.detect(raw_data)['encoding']\n            self.sense_pool = raw_data.decode(detected_encoding).split('\\n')\n        \n        # Set the transform if provided\n        self.transform = transform\n\n    def __len__(self):\n        \"\"\"\n        Return the total number of samples in the dataset.\n\n        Returns:\n            int: Number of trials in the dataset.\n        \"\"\"\n        return self.trial_count\n\n    def __getitem__(self, idx):\n        \"\"\"\n        Get a trial from the dataset at the specified index.\n\n        Args:\n            trial_idx (int): Index of the trial to retrieve.\n\n        Returns:\n            sample: The retrieved sample.\n        \"\"\"\n\n        # pres_itemids selects the indices from sense_pool of the target items\n        trials = []\n        for trial_idx in np.atleast_1d(self.trial_indices[idx]):\n            senses = self.data['pres_itemids'][trial_idx]\n            target_items = [self.sense_pool[each-1].strip() for each in senses if each != 0]\n            \n            # response units are the segments of the transcript selected by raters and their spans in the transcript\n            response_transcript = str(self.data['recall_transcript'][trial_idx][0])\n            response_units = [str(each) for each in self.data['response_units'][trial_idx] if str(each) != '']\n\n            # full response units include text *and* span representations contained in a dict\n            response_start_spans = [each-1 for each in self.data[\"response_unit_start\"][trial_idx] if each != 0]\n            response_end_spans = [each-1 for each in self.data[\"response_unit_end\"][trial_idx] if each != 0]\n            full_response_units = [{'text': unit, 'spans':[(start_span, end_span)]} for unit, start_span, end_span in zip(\n                response_units, response_start_spans, response_end_spans)]\n            \n            # matchings\n            match_matrix = np.zeros((len(target_items), len(response_units)), dtype=bool)\n            target_indices = np.array([each-1 for each in self.data['recalls'][trial_idx] if each != 0])\n\n            if len(target_indices) > 0:\n                match_matrix[target_indices, np.arange(len(response_units))] = True\n\n            trials.append({\n                'target_context': '', \n                'target_items': target_items, \n                'response_transcript': response_transcript, \n                'response_units': full_response_units, \n                'matches': match_matrix})\n            \n        return trials[0] if len(trials) == 1 else trials\n\n\n\n\nCode\nsection_tag = 'base' # unique identifier for this variation of notebook parameters\noutput_dir = 'C:/Users/gunnj/workspace/response_sequencer/data/'\n\ndataset = SensesDataset(os.path.join(output_dir, f'{section_tag}_senses.h5'), os.path.join(output_dir, f'{section_tag}_sense_pool.txt'))\n\ndataset[:2]\n\n\n\n\nCode\nimport nbdev; nbdev.nbdev_export()"
+  },
+  {
+    "objectID": "index.html#install",
+    "href": "index.html#install",
+    "title": "ResponseSequencer",
+    "section": "Install",
+    "text": "Install\nFor maximum flexibility while tailoring the library to your own needs, we recommend installing the library in editable mode. Clone the repository locally. Navigate to its root directory in a terminal and run the following command:\npip install -e .\nTo install the library normally without need for local cloning or library tailoring, you can alternatively run the following command in your terminal, applying no other steps:\npip install git+https://github.com/githubpsyche/response_sequencer.git"
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "ResponseSequencer",
+    "section": "How to use",
+    "text": "How to use\nThe usage is:\n\n\nCode\n1+1\n\n\n2"
+  },
+  {
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "ResponseSequencer",
+    "section": "Installation",
+    "text": "Installation\nFor maximum flexibility while tailoring the library to your own needs, we recommend installing the library in editable mode using pip.\nClone the repository locally. Navigate to its root directory in a terminal and run the following command:\npip install -e .\nTo install the library normally without need for local cloning or library tailoring, you can alternatively run the following command in your terminal, applying no other steps:\npip install git+https://github.com/githubpsyche/response_sequencer.git"
+  },
+  {
+    "objectID": "index.html#usage",
+    "href": "index.html#usage",
+    "title": "ResponseSequencer",
+    "section": "Usage",
+    "text": "Usage\nThis example shows you how to use a simple preprocessing pipeline provided by our library to generate a sequence of target items from a response.\n\n\nCode\nprint('hello world')\n\n\nhello world"
+  },
+  {
+    "objectID": "index.html#getting-started",
+    "href": "index.html#getting-started",
+    "title": "ResponseSequencer",
+    "section": "Getting Started",
+    "text": "Getting Started\nPeruse our documentation for more information on how to use the library."
   }
 ]
