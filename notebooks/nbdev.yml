@@ -4,6 +4,6 @@ project:
 website:
   title: "response_sequencer"
   site-url: "https://githubpsyche.github.io/response_sequencer"
-  description: "yeah"
+  description: "a research library for automatic preprocessing of complex free response data"
   repo-branch: master
   repo-url: "https://github.com/githubpsyche/response_sequencer"

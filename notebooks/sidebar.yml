@@ -1,6 +1,7 @@
 website:
   sidebar:
     contents:
+      - index.ipynb
       - 00_Loading_Data.ipynb
       - 01_Segmenting.ipynb
       - 02_Scoring.ipynb
