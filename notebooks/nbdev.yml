@@ -1,0 +1,9 @@
+project:
+  output-dir: docs
+
+website:
+  title: "response_sequencer"
+  site-url: "https://githubpsyche.github.io/response_sequencer"
+  description: "yeah"
+  repo-branch: master
+  repo-url: "https://github.com/githubpsyche/response_sequencer"

@@ -1,0 +1,12 @@
+website:
+  sidebar:
+    contents:
+      - 00_Loading_Data.ipynb
+      - 01_Segmenting.ipynb
+      - 02_Scoring.ipynb
+      - 03_Filtering.ipynb
+      - 04_Matching.ipynb
+      - 05_Sequencing.ipynb
+      - 06_Evaluating_Performance.ipynb
+      - 07_Serving_Demos.ipynb
+      - 08_Utilities.ipynb
