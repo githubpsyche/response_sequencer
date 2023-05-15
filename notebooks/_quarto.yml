@@ -16,7 +16,7 @@ website:
     search: true
     left:
       - text: "Blog"
-        href: blog/index.qmd
+        href: http://youtube.com
   sidebar:
     style: floating
 
