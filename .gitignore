@@ -151,3 +151,4 @@ data/
 /.luarc.json
 *.todo
 /_site/
+src/analyses/results/
