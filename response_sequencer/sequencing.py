@@ -138,7 +138,7 @@ class BaselinePlusFragmentsSequencer(Sequencer):
         segmenter = MultiSentenceFragmentsSegmenter(
             max_sentences=max_sentences, min_tokens=min_tokens)
         scorer = SentenceTransformerScorer(
-            model_name='all-mpnet-base-v2')
+            model_name=model_name)
         matcher = MaximumScoreMatcher(scorer)
         self.sequencer = PipelineSequencer(segmenter, matcher)
 
